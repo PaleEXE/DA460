@@ -1,0 +1,42 @@
+2024-11-28 12:45:15,200 - INFO - Received request: GET https://plogic.onrender.com/
+2024-11-28 12:45:15,201 - INFO - Headers: Headers({'host': 'plogic.onrender.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0', 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'})
+2024-11-28 12:45:15,203 - INFO - Serving index.html (Sample Response: "<!DOCTYPE html><html><head><title>Logic Evaluator</title></head><body>...")
+INFO:     192.168.1.101:52345 - "GET / HTTP/1.1" 200 OK
+
+2024-11-28 12:46:10,440 - INFO - Received request: POST https://plogic.onrender.com/evaluate
+2024-11-28 12:46:10,441 - INFO - Headers: Headers({'content-length': '22', 'content-type': 'application/json'})
+2024-11-28 12:46:10,442 - INFO - Request Body Sample: {"expression": "A & B"}
+2024-11-28 12:46:10,443 - WARNING - Deprecated operation '&' used in expression "A & B". Consider replacing with '&&'.
+2024-11-28 12:46:10,445 - INFO - Truth Table: [{"A&B": 1}, {"A&B": 0}]
+INFO:     192.168.1.101:52346 - "POST /evaluate HTTP/1.1" 200 OK
+
+2024-11-28 12:47:32,120 - INFO - Received request: POST https://plogic.onrender.com/evaluate
+2024-11-28 12:47:32,121 - INFO - Request Body Sample: {"expression": "(A &"}
+2024-11-28 12:47:32,122 - ERROR - SyntaxError in evaluate_expression: Unexpected end of input (Sample Request: {"expression": "(A &"}). Expected: complete logical expression like "(A & B)".
+INFO:     192.168.1.101:52350 - "POST /evaluate HTTP/1.1" 400 Bad Request
+
+2024-11-28 12:48:05,764 - INFO - Received request: POST https://plogic.onrender.com/where
+2024-11-28 12:48:05,765 - INFO - Request Body Sample: {"expression": "A | B", "whereCondition": "A:1"}
+2024-11-28 12:48:05,767 - INFO - Filtered Truth Table: [{"A|B": 1}]
+INFO:     192.168.1.101:52351 - "POST /where HTTP/1.1" 200 OK
+
+2024-11-28 12:49:45,601 - INFO - Received request: POST https://plogic.onrender.com/evaluate
+2024-11-28 12:49:45,602 - INFO - Request Body Sample: {"expression": "A XOR B"}
+2024-11-28 12:49:45,603 - WARNING - Unsupported operation "XOR" in expression "A XOR B". Consider replacing with "^".
+2024-11-28 12:49:45,605 - ERROR - Error in evaluate_expression: Invalid operation 'XOR' (Sample Request: {"expression": "A XOR B"}).
+INFO:     192.168.1.101:52355 - "POST /evaluate HTTP/1.1" 400 Bad Request
+
+2024-11-28 12:50:22,334 - INFO - Received request: POST https://plogic.onrender.com/evaluate
+2024-11-28 12:50:22,335 - INFO - Request Body Sample: {"expression": "(A && B) | C"}
+2024-11-28 12:50:22,336 - INFO - Truth Table: [{"(A&&B)|C": 1}, {"(A&&B)|C": 0}]
+INFO:     192.168.1.101:52360 - "POST /evaluate HTTP/1.1" 200 OK
+
+2024-11-28 12:51:10,110 - INFO - Received request: POST https://plogic.onrender.com/evaluate
+2024-11-28 12:51:10,111 - INFO - Request Body Sample: {"expression": "A & (B | C"}
+2024-11-28 12:51:10,113 - ERROR - SyntaxError in evaluate_expression: Missing closing parenthesis ')' (Sample Request: {"expression": "A & (B | C"}).
+INFO:     192.168.1.101:52362 - "POST /evaluate HTTP/1.1" 400 Bad Request
+
+2024-11-28 12:52:07,885 - INFO - Received request: POST https://plogic.onrender.com/where
+2024-11-28 12:52:07,886 - INFO - Request Body Sample: {"expression": "(A && B) | C", "whereCondition": "A:1"}
+2024-11-28 12:52:07,888 - INFO - Filtered Truth Table: [{"(A&&B)|C": 1}]
+INFO:     192.168.1.101:52363 - "POST /where HTTP/1.1" 200 OK
